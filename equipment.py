@@ -25,7 +25,7 @@ class CFDRequestHandler(BaseHTTPRequestHandler):
 </html>
 '''.format()
         elif base == "truck-check":
-            db = MySQLdb.connect(host="localhost", user="jdike", passwd="",
+            db = MySQLdb.connect(host="localhost", user="CFD", passwd="",
                                  db="CFD")
             db.autocommit(True)
             cur = db.cursor()
