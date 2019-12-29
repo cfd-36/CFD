@@ -1,0 +1,197 @@
+-- MySQL dump 10.15  Distrib 10.0.34-MariaDB, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: CFD
+-- ------------------------------------------------------
+-- Server version	10.0.34-MariaDB-0ubuntu0.16.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `equipment`
+--
+
+DROP TABLE IF EXISTS `equipment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `equipment` (
+  `Name` varchar(300) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `equipment`
+--
+
+LOCK TABLES `equipment` WRITE;
+/*!40000 ALTER TABLE `equipment` DISABLE KEYS */;
+INSERT INTO `equipment` VALUES ('Pack',1),('Scene Light',2),('Wrench',3),('Suction',4),('Roof ladder',5),('Extension ladder',6),('Forestry roll',7),('Decontamination bag',8),('Oxygen kit',9),('Wipes',10),('Shop goggles',11),('Flare',12),('Toolkit',13),('Rope bag',14),('Medical kit',15),('OHD Banner',16),('Bottle',17),('Tarp',18),('Fire blanket',19),('Appliance',20),('Hose ringer',21),('Sand',22),('Ash bucket',23),('Gloves',24),('2.5\" hose',25),('1.75\" hose',26),('Extension cord',27),('Adapter loop',28),('Fan hanger',29),('Suction float',30),('Fan',31),('Junction box and cord reel',32),('Extension cord reel',33),('Extinguisher',34),('Halagan',35),('Flat-head axe',36),('Pike-head axe',37),('Ash rake',38),('Pry bar',39),('Mallet',40),('Pike',41),('Pike-like tool',42),('Snake',43),('Adapter',44),('Speedy-dry',45),('Warning tape',46),('Bold cutter',47),('Hydrant gate',48),('Nozzle',49),('Siamese',50),('Wye',51),('Sex change',52),('Chock',53);
+/*!40000 ALTER TABLE `equipment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `equipment_location`
+--
+
+DROP TABLE IF EXISTS `equipment_location`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `equipment_location` (
+  `equipment` int(11) DEFAULT NULL,
+  `location` int(11) DEFAULT NULL,
+  `details` varchar(100) DEFAULT NULL COMMENT 'For multiple examples of something, what distinguishes this from the others',
+  `quantity` int(11) DEFAULT '1',
+  KEY `equipment_location_FK` (`equipment`),
+  KEY `equipment_location_FK_1` (`location`),
+  CONSTRAINT `equipment_location_FK` FOREIGN KEY (`equipment`) REFERENCES `equipment` (`id`),
+  CONSTRAINT `equipment_location_FK_1` FOREIGN KEY (`location`) REFERENCES `locations` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `equipment_location`
+--
+
+LOCK TABLES `equipment_location` WRITE;
+/*!40000 ALTER TABLE `equipment_location` DISABLE KEYS */;
+INSERT INTO `equipment_location` VALUES (7,4,NULL,1),(8,3,NULL,1),(9,7,NULL,1),(10,7,NULL,1),(11,7,NULL,2),(12,7,NULL,4),(13,7,NULL,1),(14,8,NULL,1),(15,8,NULL,1),(16,8,NULL,1);
+/*!40000 ALTER TABLE `equipment_location` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `locations`
+--
+
+DROP TABLE IF EXISTS `locations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `locations` (
+  `truck` varchar(10) NOT NULL,
+  `compartment` varchar(50) NOT NULL,
+  `shelf` varchar(100) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `locations`
+--
+
+LOCK TABLES `locations` WRITE;
+/*!40000 ALTER TABLE `locations` DISABLE KEYS */;
+INSERT INTO `locations` VALUES ('E3','R1','bottom',3),('E3','R1','top',4),('E3','Right Bottle 1','',5),('E3','Right Bottle 2','',6),('E3','R2','top',7),('E3','R2','bottom',8),('E3','Rear external','',9),('E3','Rear','top',10),('E3','Rear','bottom',11),('E3','Left external','',12),('E3','L1','',13),('E3','L2','top',14),('E3','L2','bottom',15),('E3','L3','',16),('E3','L4','',17),('E3','Left Bottle 1','',18),('E3','Left Bottle 2','',19),('E3','L5','',20),('E3','L6','top',21),('E3','L6','bottom',22);
+/*!40000 ALTER TABLE `locations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `readiness_checks`
+--
+
+DROP TABLE IF EXISTS `readiness_checks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `readiness_checks` (
+  `equipment` int(11) DEFAULT NULL,
+  `check_desc` varchar(100) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  KEY `readiness_checks_FK` (`equipment`),
+  CONSTRAINT `readiness_checks_FK` FOREIGN KEY (`equipment`) REFERENCES `equipment` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `readiness_checks`
+--
+
+LOCK TABLES `readiness_checks` WRITE;
+/*!40000 ALTER TABLE `readiness_checks` DISABLE KEYS */;
+INSERT INTO `readiness_checks` VALUES (1,'Pressure > 4000 PSI',1),(1,'Straps extended',2),(1,'Bottle attached',3),(17,'Pressure > 4000 PSI',4),(NULL,'',5);
+/*!40000 ALTER TABLE `readiness_checks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `readiness_history`
+--
+
+DROP TABLE IF EXISTS `readiness_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `readiness_history` (
+  `equipment` int(11) DEFAULT NULL,
+  `location` int(11) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
+  `OK` tinyint(1) DEFAULT NULL,
+  `notes` varchar(200) DEFAULT NULL,
+  `who` varchar(20) DEFAULT NULL,
+  `check_desc` int(11) DEFAULT NULL,
+  KEY `readiness_history_FK` (`equipment`),
+  KEY `readiness_history_FK_1` (`location`),
+  KEY `readiness_history_FK_2` (`check_desc`),
+  CONSTRAINT `readiness_history_FK` FOREIGN KEY (`equipment`) REFERENCES `equipment` (`id`),
+  CONSTRAINT `readiness_history_FK_1` FOREIGN KEY (`location`) REFERENCES `locations` (`id`),
+  CONSTRAINT `readiness_history_FK_2` FOREIGN KEY (`check_desc`) REFERENCES `readiness_checks` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `readiness_history`
+--
+
+LOCK TABLES `readiness_history` WRITE;
+/*!40000 ALTER TABLE `readiness_history` DISABLE KEYS */;
+INSERT INTO `readiness_history` VALUES (8,3,'2019-12-29 14:31:23',0,'Empty','36',5);
+/*!40000 ALTER TABLE `readiness_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `truck_check`
+--
+
+DROP TABLE IF EXISTS `truck_check`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `truck_check` (
+  `check` int(11) DEFAULT NULL,
+  `location` int(11) DEFAULT NULL,
+  `result` tinyint(1) DEFAULT NULL,
+  `notes` varchar(200) DEFAULT NULL,
+  `checked_by` varchar(100) DEFAULT NULL,
+  `when` datetime DEFAULT NULL,
+  KEY `truck_check_FK` (`location`),
+  KEY `truck_check_FK_1` (`check`),
+  CONSTRAINT `truck_check_FK` FOREIGN KEY (`location`) REFERENCES `locations` (`id`),
+  CONSTRAINT `truck_check_FK_1` FOREIGN KEY (`check`) REFERENCES `readiness_checks` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `truck_check`
+--
+
+LOCK TABLES `truck_check` WRITE;
+/*!40000 ALTER TABLE `truck_check` DISABLE KEYS */;
+/*!40000 ALTER TABLE `truck_check` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-12-29 14:42:41
