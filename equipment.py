@@ -160,7 +160,10 @@ function update(option, equip_id, check_id, loc_id, row_id, notes_id){{
             equipment = args["equipment"][0]
             check = args["check"][0]
             ok = args["ok"][0]
-            notes = args["notes"][0]
+            if "notes" in args:
+                notes = args["notes"][0]
+            else:
+                notes = ""
 
             update_sql = ("insert into readiness_history set equipment = %s, " +
                           "location = %s, check_desc = %s, " +
