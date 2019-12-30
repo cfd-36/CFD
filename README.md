@@ -15,9 +15,9 @@ CFD database
 			GRANT ALL ON CFD.* TO 'CFD'@'localhost';
 
 ### Setup
-- Import the schema and data
+- Import the schema and data into the CFD database as user CFD
 
-		mysql < cfd.mysqldump
+		mysql -D CFD -u CFD < cfd.mysqldump
 - Start the HTTP server
 
 		python3 equipment.py
