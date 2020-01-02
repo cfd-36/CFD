@@ -167,7 +167,7 @@ function update(option, equip_id, check_id, loc_id, row_id, notes_id){{
                 notes = ""
 
             update_sql = ("insert into readiness_history set equipment = %s, " +
-                          "location = %s, check_desc = %s, " +
+                          "location = %s, check = %s, " +
                           "time = from_unixtime(%s), ok = %s, notes = %s, " +
                           "who = %s")
             update = ("insert into readiness_history set equipment = {0}, " +
@@ -178,7 +178,7 @@ function update(option, equip_id, check_id, loc_id, row_id, notes_id){{
                                 int(datetime.now().timestamp()), int(ok),
                                 notes, "36"))
 
-            db = MySQLdb.connect(host="localhost", user="jdike", passwd="",
+            db = MySQLdb.connect(host="localhost", user="CFD", passwd="",
                                  db="CFD")
             db.autocommit(True)
             cur = db.cursor()
