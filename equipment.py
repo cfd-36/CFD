@@ -170,13 +170,6 @@ function update(option, equip_id, check_id, loc_id, row_id, notes_id){{
                           "location = %s, check = %s, " +
                           "time = from_unixtime(%s), ok = %s, notes = %s, " +
                           "who = %s")
-            update = ("insert into readiness_history set equipment = {0}, " +
-                      "location = {1}, check_desc = {2}, " +
-                      "time = from_unixtime({3}), ok = {4}, notes = {5}, " +
-                      "who = {6}")
-            print(update.format(equipment, location, check,
-                                int(datetime.now().timestamp()), int(ok),
-                                notes, "36"))
 
             db = MySQLdb.connect(host="localhost", user="CFD", passwd="",
                                  db="CFD")
