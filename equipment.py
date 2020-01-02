@@ -20,6 +20,7 @@ class CFDRequestHandler(BaseHTTPRequestHandler):
     <body>
         <ul>
             <li><a href="truck-check">Check a truck</a></li>
+            <li><a href="failed-readiness">Failed readiness checks</a></li>
 	</ul>
     </body>
 </html>
@@ -190,6 +191,60 @@ function update(option, equip_id, check_id, loc_id, row_id, notes_id){{
             self.end_headers()
             self.wfile.write(ok.encode())
             return
+        elif base == "failed-readiness":
+            db = MySQLdb.connect(host="localhost", user="CFD", passwd="",
+                                 db="CFD")
+            db.autocommit(True)
+            cur = db.cursor()
+            cur.execute("select e.name, loc.truck, loc.compartment, " +
+                        "loc.shelf, rc.check_desc, rh.time, rh.who, rh.notes " +
+                        "from equipment as e, locations as loc, " +
+                        "readiness_checks as rc, readiness_history as rh " +
+                        "where rh.equipment = e.id and rh.location = loc.id " +
+                        "and rc.id = rh.check")
+            failed = cur.fetchall()
+            rows = [ '''
+<tr>
+    <th>Equipment</th>
+    <th>Check Failed</th>
+    <th>When</th>
+    <th>Truck</th>
+    <th>Compartment</th>
+    <th>Shelf</th>
+    <th>Notes</th>
+    <th>Noted By</th>
+</tr>
+''' ]
+            for fail in failed:
+                check = fail[4]
+                if check == "":
+                    check = "Present"
+                rows.append('''
+<tr>
+    <td>{0}</td>
+    <td>{1}</td>
+    <td>{2}</td>
+    <td>{3}</td>
+    <td>{4}</td>
+    <td>{5}</td>
+    <td>{6}</td>
+    <td>{7}</td>
+</tr>
+'''.format(fail[0], check, fail[5], fail[1], fail[2], fail[3], fail[7],
+           fail[6]))
+            html = '''
+<html>
+    <head>
+	<title>Failed checks</title>
+    </head>
+    <body>
+        <table border="1">
+{0}
+	</table>
+    </body>
+</html>
+'''.format("\n".join(rows))
+            pass
         else:
             html = '''
 <html>
