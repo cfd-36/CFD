@@ -27,7 +27,6 @@ http://localhost:8000.  Remote access will depend on your firewall.
 ## TODO
 - Add a UI to import data
 - Add a UI for the officers to see
-    - where we have failed readiness checks and how long those checks have been failing
     - how long it has been since someone has gone over a given truck
     - how long it has been since a given person has gone over a truck
 - truck_check should force the values in the OK column to be undetermined on page load.  Firefox will remember form settings, and set inputs to the last values that it saw.
