@@ -21,6 +21,7 @@ class CFDRequestHandler(BaseHTTPRequestHandler):
         <ul>
             <li><a href="truck-check">Check a truck</a></li>
             <li><a href="failed-readiness">Failed readiness checks</a></li>
+            <li><a href="last-truck-check">Most recent truck checks</a></li>
 	</ul>
     </body>
 </html>
@@ -238,6 +239,42 @@ function update(option, equip_id, check_id, loc_id, row_id, notes_id){{
 </html>
 '''.format("\n".join(rows))
             pass
+        elif base == "last-truck-check":
+            db = MySQLdb.connect(host="localhost", user="CFD", passwd="",
+                                 db="CFD")
+            db.autocommit(True)
+            cur = db.cursor()
+            cur.execute("select max(rh.time), rh.who, loc.truck from " +
+                        "readiness_history as rh, locations as loc " +
+                        "group by loc.truck");
+            checks = cur.fetchall()
+            rows = [ '''
+<tr>
+    <th>Truck</th>
+    <th>Last Checked</th>
+    <th>By</th>
+</tr>
+''' ]
+            for check in checks:
+                rows.append('''
+<tr>
+    <td>{0}</td>
+    <td>{1}</td>
+    <td>{2}</td>
+</tr>
+'''.format(check[2], check[0], check[1]))
+            html = '''
+<html>
+    <head>
+	<title>Most recent truck checks</title>
+    </head>
+    <body>
+        <table border="1">
+{0}
+	</table>
+    </body>
+</html>
+'''.format("\n".join(rows))
         else:
             html = '''
 <html>
