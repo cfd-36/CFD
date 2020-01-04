@@ -135,13 +135,13 @@ CREATE TABLE `readiness_history` (
   `OK` tinyint(1) DEFAULT NULL,
   `notes` varchar(200) DEFAULT NULL,
   `who` varchar(20) DEFAULT NULL,
-  `check` int(11) DEFAULT NULL,
+  `check_id` int(11) DEFAULT NULL,
   KEY `readiness_history_FK` (`equipment`),
   KEY `readiness_history_FK_1` (`location`),
-  KEY `readiness_history_FK_2` (`check`),
+  KEY `readiness_history_FK_2` (`check_id`),
   CONSTRAINT `readiness_history_FK` FOREIGN KEY (`equipment`) REFERENCES `equipment` (`id`),
   CONSTRAINT `readiness_history_FK_1` FOREIGN KEY (`location`) REFERENCES `locations` (`id`),
-  CONSTRAINT `readiness_history_FK_2` FOREIGN KEY (`check`) REFERENCES `readiness_checks` (`id`)
+  CONSTRAINT `readiness_history_FK_2` FOREIGN KEY (`check_id`) REFERENCES `readiness_checks` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -151,7 +151,7 @@ CREATE TABLE `readiness_history` (
 
 LOCK TABLES `readiness_history` WRITE;
 /*!40000 ALTER TABLE `readiness_history` DISABLE KEYS */;
-INSERT INTO `readiness_history` VALUES (8,3,'2019-12-29 14:31:23',0,'Empty','36',5);
+INSERT INTO `readiness_history` VALUES (8,3,'2019-12-29 14:31:23',0,'Empty','36',5),(8,3,'2020-01-02 21:14:48',0,'','36',5),(7,4,'2020-01-02 21:14:51',1,'','36',5),(14,8,'2020-01-02 21:14:52',1,'','36',5),(15,8,'2020-01-02 21:15:10',0,'','36',5),(16,8,'2020-01-02 21:15:12',0,'','36',5);
 /*!40000 ALTER TABLE `readiness_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,4 +194,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-01 21:43:01
+-- Dump completed on 2020-01-04 14:59:20

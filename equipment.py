@@ -167,7 +167,7 @@ function update(option, equip_id, check_id, loc_id, row_id, notes_id){{
                 notes = ""
 
             update_sql = ("insert into readiness_history set equipment = %s, " +
-                          "location = %s, check = %s, " +
+                          "location = %s, check_id = %s, " +
                           "time = from_unixtime(%s), ok = %s, notes = %s, " +
                           "who = %s")
 
@@ -194,7 +194,7 @@ function update(option, equip_id, check_id, loc_id, row_id, notes_id){{
                         "from equipment as e, locations as loc, " +
                         "readiness_checks as rc, readiness_history as rh " +
                         "where rh.equipment = e.id and rh.location = loc.id " +
-                        "and rc.id = rh.check")
+                        "and rc.id = rh.check_id")
             failed = cur.fetchall()
             rows = [ '''
 <tr>
