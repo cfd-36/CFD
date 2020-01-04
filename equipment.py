@@ -44,7 +44,7 @@ class CFDRequestHandler(BaseHTTPRequestHandler):
                          "loc.compartment, loc.shelf")
                 cur.execute(e_sql.format(truck))
                 e = cur.fetchall()
-                
+
                 rc_sql = ("select e.id, rc.check_desc, rc.id from " +
                           "equipment as e, readiness_checks as rc, " +
                           "equipment_location as el, locations as loc where " +
@@ -157,7 +157,7 @@ function update(option, equip_id, check_id, loc_id, row_id, notes_id){{
 </html>
 '''.format(trucks_html)
         elif base == "update-check":
-            location = args["location"][0]         
+            location = args["location"][0]
             equipment = args["equipment"][0]
             check = args["check"][0]
             ok = args["ok"][0]
@@ -178,7 +178,7 @@ function update(option, equip_id, check_id, loc_id, row_id, notes_id){{
             cur.execute(update_sql, (equipment, location, check,
                                      int(datetime.now().timestamp()), int(ok),
                                      notes, "36"))
-            
+
             self.send_response(200)
             self.send_header("Content-type", "text/plain")
             self.end_headers()
@@ -253,7 +253,7 @@ function update(option, equip_id, check_id, loc_id, row_id, notes_id){{
         self.send_response(200)
         self.end_headers()
         self.wfile.write(html.encode())
-    
+
 server_address = ('', 8000)
 httpd = HTTPServer(server_address, CFDRequestHandler)
 httpd.serve_forever()
